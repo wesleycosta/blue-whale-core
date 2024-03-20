@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace PixelHotel.Core.Commands;
+namespace PixelHotel.Core.Domain.Services;
 
 public sealed class Result
 {

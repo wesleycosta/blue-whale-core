@@ -1,16 +1,17 @@
-﻿using PixelHotel.Core.Messages;
+﻿using PixelHotel.Core.Domain.Events;
 
 namespace PixelHotel.Core.Domain;
 
 public abstract class Entity
 {
-    public Guid Id { get; protected set; }
-    public bool Removed { get; protected set; }
-
     private List<Event> _events = [];
 
-    public IReadOnlyList<Event> DomainEvents
-        => _events;
+    public Guid Id { get; protected set; }
+    public bool Removed { get; protected set; }
+    public IReadOnlyList<Event> DomainEvents => _events;
+
+    public void GenerateId()
+        => Id = Guid.NewGuid();
 
     public void AddEvent(Event eventMessage)
     {

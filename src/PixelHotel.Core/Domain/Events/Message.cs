@@ -1,4 +1,4 @@
-﻿namespace PixelHotel.Core.Messages;
+﻿namespace PixelHotel.Core.Domain.Events;
 
 public abstract class Message
 {
