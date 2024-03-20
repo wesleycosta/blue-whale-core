@@ -1,4 +1,4 @@
-﻿namespace PixelHotel.Core.Database;
+﻿namespace PixelHotel.Core.Data;
 
 public interface IUnitOfWork
 {

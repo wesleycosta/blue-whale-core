@@ -1,8 +1,6 @@
-﻿using MediatR;
+﻿namespace PixelHotel.Core.Messages;
 
-namespace PixelHotel.Core.Messages;
-
-public abstract class Event : INotification
+public abstract class Event 
 {
     public Guid? AggregateId { get; protected set; }
     public DateTimeOffset? Timestamp { get; private set; }
