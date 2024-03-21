@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PixelHotel.Core.Data;
+using PixelHotel.Core.Abstractions;
 using PixelHotel.Core.Domain;
 using System.Linq.Expressions;
 
@@ -30,7 +30,7 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
         _dbSet.Remove(entity);
     }
 
-    public virtual async Task<TEntity?> GetById(Guid id)
+    public virtual async Task<TEntity> GetById(Guid id)
         => await AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
     public async Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, TResult>> projection)

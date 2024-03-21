@@ -1,8 +1,7 @@
-﻿using PixelHotel.Core.Messages;
+﻿using PixelHotel.Core.Events;
 
-namespace PixelHotel.Events.Rooms
+namespace PixelHotel.Events.Rooms;
+
+public class RoomRemovedEvent : Event
 {
-    public class RoomRemovedEvent : Event
-    {
-    }
 }

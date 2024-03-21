@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PixelHotel.Core.Domain;
-using PixelHotel.Core.Events;
+using PixelHotel.Core.Events.Abstractions;
 
 namespace PixelHotel.Infra.Extensions;
 
@@ -20,7 +20,7 @@ internal static class PublisherEventExtensions
             .ToList()
             .ForEach(entity => entity.Entity.ClearEvents());
 
-        var tasks = domainEvents.Select(async (domainEvent) => await publisher.PublishEvent(domainEvent));
+        var tasks = domainEvents.Select(async (domainEvent) => await publisher.Publish(domainEvent));
 
         await Task.WhenAll(tasks);
     }

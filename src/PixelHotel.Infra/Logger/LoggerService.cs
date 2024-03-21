@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PixelHotel.Core.Logger;
+using PixelHotel.Core.Abstractions;
 using Serilog;
 
 namespace PixelHotel.Infra.Logger;

@@ -1,4 +1,4 @@
-﻿using PixelHotel.Core.Messages;
+﻿using PixelHotel.Core.Events;
 
 namespace PixelHotel.Events.Reseqrvations;
 

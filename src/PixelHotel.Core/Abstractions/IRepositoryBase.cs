@@ -1,7 +1,7 @@
 ﻿using PixelHotel.Core.Domain;
 using System.Linq.Expressions;
 
-namespace PixelHotel.Core.Data;
+namespace PixelHotel.Core.Abstractions;
 
 public interface IRepositoryBase<TEntity> where TEntity : Entity
 {

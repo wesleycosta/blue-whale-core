@@ -1,4 +1,4 @@
-﻿namespace PixelHotel.Core.Logger;
+﻿namespace PixelHotel.Core.Abstractions;
 
 public interface ILoggerService
 {

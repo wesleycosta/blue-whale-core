@@ -1,14 +1,14 @@
-﻿using PixelHotel.Core.Messages;
+﻿using PixelHotel.Core.Events;
 
 namespace PixelHotel.Events.Rooms;
 
-public sealed class RoomCreatedOrUpdatedEvent : Event
+public class RoomCreatedOrUpdatedEvent : Event
 {
-    public string? Name { get; private set; }
+    public string Name { get; private set; }
     public int Number { get; private set; }
 
     public RoomCreatedOrUpdatedEvent(Guid id,
-        string? name,
+        string name,
         int number)
     {
         AggregateId = id;

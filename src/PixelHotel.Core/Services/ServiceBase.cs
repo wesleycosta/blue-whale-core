@@ -1,19 +1,12 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using PixelHotel.Core.Data;
+using PixelHotel.Core.Abstractions;
 
 namespace PixelHotel.Core.Services;
 
-public abstract class ServiceBase
+public abstract class ServiceBase(IUnitOfWork unitOfWork)
 {
     private ValidationResult _validationResult;
-    private readonly IUnitOfWork _unitOfWork;
-
-    protected ServiceBase(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-        _validationResult = new ValidationResult();
-    }
 
     protected async Task<bool> Validate<T>(IValidator<T> abstractValidator, T instance)
     {
@@ -22,14 +15,17 @@ public abstract class ServiceBase
     }
 
     protected void Notify(string propertyName, string message)
-        => _validationResult?.Errors.Add(new ValidationFailure(propertyName, message));
-
-    protected async Task<Result> SaveData(object data)
     {
-        if (!await _unitOfWork.Commit())
-            Notify(nameof(_unitOfWork.Commit), "There was an error while persisting the data");
+        _validationResult ??= new();
+        _validationResult.Errors.Add(new ValidationFailure(propertyName, message));
+    }
 
-        return new Result(_validationResult, data);
+    protected async Task<Result> SaveChanges(object resultData)
+    {
+        if (!await unitOfWork.Commit())
+            Notify(nameof(unitOfWork.Commit), "There was an error while persisting");
+
+        return new Result(_validationResult, resultData);
     }
 
     protected Result BadCommand()
