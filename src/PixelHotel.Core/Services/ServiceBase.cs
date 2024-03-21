@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using PixelHotel.Core.Data;
 
-namespace PixelHotel.Core.Domain.Services;
+namespace PixelHotel.Core.Services;
 
 public abstract class ServiceBase
 {
@@ -24,7 +24,7 @@ public abstract class ServiceBase
     protected void Notify(string propertyName, string message)
         => _validationResult?.Errors.Add(new ValidationFailure(propertyName, message));
 
-    protected async Task<Result> SaveData(object? data)
+    protected async Task<Result> SaveData(object data)
     {
         if (!await _unitOfWork.Commit())
             Notify(nameof(_unitOfWork.Commit), "There was an error while persisting the data");
@@ -41,6 +41,6 @@ public abstract class ServiceBase
         return BadCommand();
     }
 
-    protected Result SuccessfulCommand(object? data = null)
+    protected Result SuccessfulCommand(object data = null)
         => new(_validationResult, data);
 }

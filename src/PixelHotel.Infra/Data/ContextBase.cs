@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PixelHotel.Core.Domain;
 using PixelHotel.Core.Events;
-using PixelHotel.Core.Messages;
+using PixelHotel.Core.Events.Abstractions;
 using PixelHotel.Infra.Extensions;
 using System.Reflection;
 

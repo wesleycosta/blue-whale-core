@@ -1,14 +1,14 @@
 ﻿using FluentValidation.Results;
 
-namespace PixelHotel.Core.Domain.Services;
+namespace PixelHotel.Core.Services;
 
 public sealed class Result
 {
     public ValidationResult Validation { get; private set; }
-    public object? Data { get; private set; }
+    public object Data { get; private set; }
 
     public Result(ValidationResult validation,
-        object? data)
+        object data)
     {
         Validation = validation;
         Data = data;

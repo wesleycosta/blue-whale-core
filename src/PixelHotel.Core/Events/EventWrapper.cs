@@ -1,4 +1,4 @@
-﻿namespace PixelHotel.Core.Domain.Events;
+﻿namespace PixelHotel.Core.Events;
 
 public sealed record EventWrapper(string Type, Guid TraceId, object Event)
 {

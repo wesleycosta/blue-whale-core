@@ -1,20 +1,23 @@
-﻿using PixelHotel.Core.Domain.Events;
+﻿using PixelHotel.Core.Events;
 
 namespace PixelHotel.Events.Guests;
 
 public class GuestCreatedOrUpdatedEvent : Event
 {
-    public string? Name { get; private set; }
-    public string? Email { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string Email { get; private set; }
     public DateOnly DateOfBirth { get; private set; }
 
     public GuestCreatedOrUpdatedEvent(Guid aggregateId,
-        string? name,
-        string? email,
+        string firtName,
+        string lastName,
+        string email,
         DateOnly dateOfBirth)
     {
         AggregateId = aggregateId;
-        Name = name;
+        FirstName = firtName;
+        LastName = lastName;
         Email = email;
         DateOfBirth = dateOfBirth;
     }

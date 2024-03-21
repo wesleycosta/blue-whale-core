@@ -1,4 +1,4 @@
-﻿using PixelHotel.Core.Domain.Events;
+﻿using PixelHotel.Core.Events;
 
 namespace PixelHotel.Core.Domain;
 

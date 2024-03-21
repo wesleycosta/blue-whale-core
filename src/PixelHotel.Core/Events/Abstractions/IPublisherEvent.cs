@@ -1,6 +1,6 @@
-﻿using PixelHotel.Core.Domain.Events;
+﻿using PixelHotel.Core.Events;
 
-namespace PixelHotel.Core.Domain.Abstractions;
+namespace PixelHotel.Core.Events.Abstractions;
 
 public interface IPublisherEvent
 {
