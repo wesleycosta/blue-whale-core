@@ -8,9 +8,9 @@ public abstract class ServiceBase(IUnitOfWork unitOfWork)
 {
     private ValidationResult _validationResult;
 
-    protected async Task<bool> Validate<T>(IValidator<T> abstractValidator, T instance)
+    protected async Task<bool> Validate<TCommand>(IValidator<TCommand> abstractValidator, TCommand request)
     {
-        _validationResult = await abstractValidator.ValidateAsync(instance);
+        _validationResult = await abstractValidator.ValidateAsync(request);
         return _validationResult.IsValid;
     }
 
@@ -20,12 +20,12 @@ public abstract class ServiceBase(IUnitOfWork unitOfWork)
         _validationResult.Errors.Add(new ValidationFailure(propertyName, message));
     }
 
-    protected async Task<Result> SaveChanges(object resultData)
+    protected async Task<Result> SaveChanges(object responseData)
     {
         if (!await unitOfWork.Commit())
             Notify(nameof(unitOfWork.Commit), "There was an error while persisting");
 
-        return new Result(_validationResult, resultData);
+        return new Result(_validationResult, responseData);
     }
 
     protected Result BadCommand()

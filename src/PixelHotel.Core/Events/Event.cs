@@ -7,4 +7,7 @@ public abstract class Event
 
     protected Event()
         => Timestamp = DateTimeOffset.Now;
+
+    public void SetAggregateId(Guid id)
+        => AggregateId = id;
 }

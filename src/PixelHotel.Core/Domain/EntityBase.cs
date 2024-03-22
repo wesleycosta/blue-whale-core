@@ -1,8 +1,9 @@
 ﻿using PixelHotel.Core.Events;
+using System.Diagnostics.Tracing;
 
 namespace PixelHotel.Core.Domain;
 
-public abstract class Entity
+public abstract class EntityBase
 {
     private List<Event> _events = [];
 
@@ -27,4 +28,13 @@ public abstract class Entity
 
     public void Remove()
         => Removed = true;
+
+    public void RemoveAndAddEvent<TEvent>() where TEvent : Event, new()
+    {
+        var @event = new TEvent();
+        @event.SetAggregateId(Id);
+
+        Remove();
+        AddEvent(@event);
+    }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace PixelHotel.Core.Abstractions;
 
-public interface IRepositoryBase<TEntity> where TEntity : Entity
+public interface IRepositoryBase<TEntity> where TEntity : EntityBase
 {
     void Add(TEntity entity);
     void Update(TEntity entity);

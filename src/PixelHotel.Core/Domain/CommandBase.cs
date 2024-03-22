@@ -3,6 +3,6 @@ using PixelHotel.Core.Services;
 
 namespace PixelHotel.Core.Domain;
 
-public class Command : IRequest<Result>
+public class CommandBase : IRequest<Result>
 {
 }

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace PixelHotel.Infra.Data;
 
-public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : Entity
+public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
 {
     private readonly DbSet<TEntity> _dbSet;
 

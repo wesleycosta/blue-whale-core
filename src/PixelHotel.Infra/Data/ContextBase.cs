@@ -32,7 +32,7 @@ public abstract class ContextBase : DbContext
         foreach (var property in propertyZuadas)
             property.SetColumnType("VARCHAR(255)");
 
-        modelBuilder.Entity<Entity>().HasQueryFilter(p => p.Removed);
+        modelBuilder.Entity<EntityBase>().HasQueryFilter(p => p.Removed);
         modelBuilder.Ignore<ValidationResult>();
         modelBuilder.Ignore<Event>();
 

@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using PixelHotel.Core.Abstractions;
+using PixelHotel.Infra.Options;
 using Serilog;
 
 namespace PixelHotel.Infra.Logger;
 
-internal class LoggerService(ILogger logger,
-    IHttpContextAccessor httpContextAccessor) : ILoggerService
+internal class LoggerService(ILogger _logger,
+    IHttpContextAccessor _httpContextAccessor,
+    IOptions<ServiceOptions> _options) : ILoggerService
 {
-    private static readonly string _templateDefault = "operation={operation}; message={message};traceId={traceId};machine={machine};version={version}";
+    private static readonly string _templateDefault = "service={service};operation={operation}; message={message};traceId={traceId};machine={machine};version={version}";
 
     public Guid? GetTraceId()
     {
-        var traceId = httpContextAccessor.HttpContext
+        var traceId = _httpContextAccessor.HttpContext
             .Response
             .Headers["TraceId"];
 
@@ -22,7 +25,8 @@ internal class LoggerService(ILogger logger,
     }
 
     public void Information(string operation, string message, Guid? traceId = null)
-        => logger.Information(_templateDefault,
+        => _logger.Information(_templateDefault,
+            Service,
             operation,
             message,
             traceId,
@@ -30,7 +34,8 @@ internal class LoggerService(ILogger logger,
             Version);
 
     public void Information(string operation, string message, object body, Guid? traceId = null)
-        => logger.Information(string.Concat(_templateDefault, ";body={body}"),
+        => _logger.Information(string.Concat(_templateDefault, ";body={body}"),
+            Service,
             operation,
             message,
             traceId,
@@ -39,7 +44,8 @@ internal class LoggerService(ILogger logger,
             body);
 
     public void Information(string operation, string message, object body, int statusCode, Guid? traceId = null)
-        => logger.Information(string.Concat(_templateDefault, ";body={body};statusCode={statusCode}"),
+        => _logger.Information(string.Concat(_templateDefault, ";body={body};statusCode={statusCode}"),
+            Service,
             operation,
             message,
             traceId,
@@ -49,7 +55,8 @@ internal class LoggerService(ILogger logger,
             statusCode);
 
     public void Error(string operation, string message, Exception exception, Guid? traceId = null)
-        => logger.Error(string.Concat(_templateDefault, ";exception={exception}"),
+        => _logger.Error(string.Concat(_templateDefault, ";exception={exception}"),
+            Service,
             operation,
             message,
             traceId,
@@ -58,7 +65,8 @@ internal class LoggerService(ILogger logger,
             exception);
 
     public void Error(string operation, string message, Exception exception, object request, Guid? traceId = null)
-        => logger.Error(string.Concat(_templateDefault, ";exception={exception};request={request}"),
+        => _logger.Error(string.Concat(_templateDefault, ";exception={exception};request={request}"),
+            Service,
             operation,
             message,
             traceId,
@@ -72,5 +80,6 @@ internal class LoggerService(ILogger logger,
 
     private static string MachineName => Environment.MachineName;
 
-    private static string Version => "1.0.0";
+    private string Version => _options.Value.Version;
+    private string Service => _options.Value.Name;
 }

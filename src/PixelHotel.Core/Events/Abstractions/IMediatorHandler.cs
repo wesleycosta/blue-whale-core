@@ -5,5 +5,5 @@ namespace PixelHotel.Core.Events.Abstractions;
 
 public interface IMediatorHandler
 {
-    Task<Result> SendCommand<TCommand>(TCommand command) where TCommand : Command;
+    Task<Result> SendCommand<TCommand>(TCommand command) where TCommand : CommandBase;
 }

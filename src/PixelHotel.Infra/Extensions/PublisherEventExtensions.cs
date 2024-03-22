@@ -9,7 +9,7 @@ internal static class PublisherEventExtensions
     public static async Task PublishDomainEvents<T>(this IPublisherEvent publisher, T ctx) where T : DbContext
     {
         var domainEntities = ctx.ChangeTracker
-            .Entries<Entity>()
+            .Entries<EntityBase>()
             .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
 
         var domainEvents = domainEntities
