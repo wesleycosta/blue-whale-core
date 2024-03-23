@@ -2,9 +2,9 @@
 using PixelHotel.Core.Domain;
 using PixelHotel.Core.Events.Abstractions;
 
-namespace PixelHotel.Infra.Extensions;
+namespace PixelHotel.Infra.Configurations;
 
-internal static class PublisherEventExtensions
+internal static class PublisherEventConfiguration
 {
     public static async Task PublishDomainEvents<T>(this IPublisherEvent publisher, T ctx) where T : DbContext
     {

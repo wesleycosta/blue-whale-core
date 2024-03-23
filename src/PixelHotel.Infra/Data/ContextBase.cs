@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PixelHotel.Core.Domain;
 using PixelHotel.Core.Events;
 using PixelHotel.Core.Events.Abstractions;
-using PixelHotel.Infra.Extensions;
+using PixelHotel.Infra.Configurations;
 using System.Reflection;
 
 namespace PixelHotel.Infra.Data;

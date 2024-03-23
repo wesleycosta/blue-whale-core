@@ -1,9 +1,12 @@
-﻿using PixelHotel.Core.Logger;
+﻿using Microsoft.AspNetCore.Http;
+using PixelHotel.Core.Abstractions;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Api.Middlewares;
 
-internal sealed class RequestLogMiddleware(RequestDelegate next,
-    ILoggerService logger)
+internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService _logger)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -18,7 +21,7 @@ internal sealed class RequestLogMiddleware(RequestDelegate next,
         }
         catch (Exception exception)
         {
-            logger.Error(operation, "Request error", exception, traceId);
+            _logger.Error(operation, "Request error", exception, traceId);
             throw;
         }
     }
@@ -28,7 +31,7 @@ internal sealed class RequestLogMiddleware(RequestDelegate next,
         var body = await ReadRequestBody(context);
         context.Response.Headers.Append("TraceId", traceId.ToString());
 
-        logger.Information(operation, "Request received", body, traceId);
+        _logger.Information(operation, "Request received", body, traceId);
     }
 
     private static async Task<string> ReadRequestBody(HttpContext context)
@@ -48,7 +51,7 @@ internal sealed class RequestLogMiddleware(RequestDelegate next,
         var stream = context.Response.Body;
         context.Response.Body = buffer;
 
-        await next.Invoke(context);
+        await _next.Invoke(context);
 
         buffer.Seek(0, SeekOrigin.Begin);
         using var reader = new StreamReader(buffer);
@@ -59,7 +62,7 @@ internal sealed class RequestLogMiddleware(RequestDelegate next,
         await buffer.CopyToAsync(stream);
         context.Response.Body = stream;
 
-        logger.Information(operation,
+        _logger.Information(operation,
             "Response",
             body,
             context.Response.StatusCode,
