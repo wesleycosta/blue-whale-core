@@ -1,29 +1,45 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Infra.Configurations;
-using PixelHotel.Infra.Data;
-using System.Reflection;
+using System;
 
 namespace PixelHotel.Api;
 
 public sealed class WebAppBuilder
 {
-    private WebApplication? _app;
+    private WebApplication _app;
+    private WebApplicationBuilder _builder;
 
     public WebAppBuilder BuildDefault(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddApiConfiguration(builder.Configuration, Assembly.GetExecutingAssembly());
+        _builder = WebApplication.CreateBuilder(args);
 
-        _app = builder.Build();
-        _app.UseApiConfiguration(builder.Configuration);
+        return this;
+    }
+
+    public WebAppBuilder WithServices<TAssembly>(Action<IServiceCollection, IConfiguration> configureServices)
+    {
+        var assembly = typeof(TAssembly).Assembly;
+        _builder.Services.AddApiConfiguration(_builder.Configuration, assembly);
+        configureServices?.Invoke(_builder.Services, _builder.Configuration);
+
+        return this;
+    }
+
+    public WebAppBuilder WithApp()
+    {
+        _app = _builder.Build();
+        _app.UseApiConfiguration(_builder.Configuration);
         _app.MapControllers();
 
         return this;
     }
 
-    public WebAppBuilder WithApplyMigrate<TContext>() where TContext : ContextBase
+    public WebAppBuilder WithApplyMigrate<TDbContext>() where TDbContext : DbContext
     {
-        _app.ApplyMigrate<TContext>();
+        _app.ApplyMigrate<TDbContext>();
 
         return this;
     }

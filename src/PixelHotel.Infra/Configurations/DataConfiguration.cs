@@ -23,7 +23,10 @@ public static class DataConfiguration
             var pendingMigrations = context.Database.GetPendingMigrations();
             LogMigrations(logger, pendingMigrations);
 
-            context.Database.Migrate();
+            if (pendingMigrations.Any())
+            {
+                context.Database.Migrate();
+            }
         }
         catch (Exception exception)
         {
