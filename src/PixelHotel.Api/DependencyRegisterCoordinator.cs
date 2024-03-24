@@ -14,14 +14,14 @@ public static class DependencyRegisterCoordinator
 {
     public static IServiceCollection AddApiConfiguration(this IServiceCollection services,
         IConfiguration configuration,
-        Assembly assembly)
+        Assembly[] assemblies)
     {
         var serviceOptions = configuration.GetServiceOptions();
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwagger(serviceOptions);
-        services.AddServicesDependencies(configuration, assembly);
+        services.AddServicesDependencies(configuration, assemblies);
         services.AddHttpContextAccessor();
 
         return services;
@@ -43,7 +43,7 @@ public static class DependencyRegisterCoordinator
     private static ServiceOptions GetServiceOptions(this IConfiguration configuration)
     {
         var serviceOptions = new ServiceOptions();
-        configuration.Bind(ServiceOptions.KEY, serviceOptions);
+        configuration.Bind(ServiceOptions.Service, serviceOptions);
 
         return serviceOptions;
     }

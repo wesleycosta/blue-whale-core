@@ -33,7 +33,8 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     public virtual async Task<TEntity> GetById(Guid id)
         => await AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
-    public async Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, TResult>> projection)
+    public async Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
+        Expression<Func<TEntity, TResult>> projection)
     {
         var query = AsQueryable();
 
@@ -41,5 +42,16 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
             .Where(filter)
             .Select(projection)
             .ToListAsync();
+    }
+
+    public async Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
+        Expression<Func<TEntity, TResult>> projection)
+    {
+        var query = AsQueryable();
+
+        return await query
+            .Where(filter)
+            .Select(projection)
+            .FirstOrDefaultAsync();
     }
 }

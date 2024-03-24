@@ -1,8 +1,8 @@
 ﻿namespace PixelHotel.Infra.Options;
 
-public class ServiceOptions : IOptions
+public class ServiceOptions
 {
-    public const string KEY = "Service";
+    public const string Service = "Service";
 
     public string Name { get; set; }
     public string Version { get; set; }

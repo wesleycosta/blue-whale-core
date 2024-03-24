@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace PixelHotel.Infra.Configurations;
 
-internal static class ModuleRegisterConfigurations
+public static class ModuleRegisterConfigurations
 {
     public static void RegisterModules(this IServiceCollection services, params Assembly[] assemblies)
     {

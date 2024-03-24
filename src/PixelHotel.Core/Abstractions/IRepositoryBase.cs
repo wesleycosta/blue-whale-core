@@ -11,4 +11,6 @@ public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     Task<TEntity> GetById(Guid id);
     Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
+    Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
+        Expression<Func<TEntity, TResult>> projection);
 }

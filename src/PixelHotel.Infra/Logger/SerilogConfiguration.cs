@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PixelHotel.Infra.Options;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -7,27 +8,24 @@ namespace PixelHotel.Infra.Logger;
 
 internal static class SerilogConfiguration
 {
-    private const string ELASTICSEARCH = "Elasticsearch";
-    private const string INDEX_FORMART = "IndexFormat";
-    private const string URI = "Uri";
-
     public static IServiceCollection AddSerilog(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var (indexFormat, uri) = configuration.GetElasticSearchConfigurations();
-        var elasticsearchUri = new Uri(uri);
-        var options = new ElasticsearchSinkOptions(elasticsearchUri)
+        var options = GetElasticsearchOptions(configuration);
+        var elasticsearchUri = new Uri(options.Uri);
+
+        var elasticsearchSinkOptions = new ElasticsearchSinkOptions(elasticsearchUri)
         {
             AutoRegisterTemplate = true,
             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-            IndexFormat = indexFormat
+            IndexFormat = options.IndexFormat
         };
 
         Log.Logger = new LoggerConfiguration()
             .Enrich
             .FromLogContext()
             .WriteTo
-            .Elasticsearch(options)
+            .Elasticsearch(elasticsearchSinkOptions)
             .WriteTo
             .Console()
             .CreateLogger();
@@ -35,18 +33,11 @@ internal static class SerilogConfiguration
         return services.AddSingleton(Log.Logger);
     }
 
-    private static (string, string) GetElasticSearchConfigurations(this IConfiguration configuration)
+    private static ElasticsearchOptions GetElasticsearchOptions(IConfiguration configuration)
     {
-        var indexFormat = configuration
-            .GetSection(ELASTICSEARCH)
-            .GetSection(INDEX_FORMART)
-            .Value;
+        var options = new ElasticsearchOptions();
+        configuration.Bind(ElasticsearchOptions.Elasticsearch, options);
 
-        var uri = configuration
-            .GetSection(ELASTICSEARCH)
-            .GetSection(URI)
-            .Value;
-
-        return (indexFormat, uri);
+        return options;
     }
 }

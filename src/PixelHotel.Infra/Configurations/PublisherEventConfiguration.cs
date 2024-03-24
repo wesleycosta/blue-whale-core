@@ -4,7 +4,7 @@ using PixelHotel.Core.Events.Abstractions;
 
 namespace PixelHotel.Infra.Configurations;
 
-internal static class PublisherEventConfiguration
+public static class PublisherEventConfiguration
 {
     public static async Task PublishDomainEvents<T>(this IPublisherEvent publisher, T ctx) where T : DbContext
     {

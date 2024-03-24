@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using PixelHotel.Core.Abstractions;
+using PixelHotel.Infra.Logger;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PixelHotel.Api.Middlewares;
@@ -11,30 +14,30 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
     public async Task Invoke(HttpContext context)
     {
         var traceId = Guid.NewGuid();
-        var operation = $"{context.Request.Method} {context.Request.Path.Value}";
+        var message = $"{context.Request.Method} {context.Request.Path.Value}";
 
-        await LogRequest(operation, traceId, context);
+        await LogRequest(message, traceId, context);
 
         try
         {
-            await LogResponseAndInvokeNext(operation, traceId, context);
+            await LogResponseAndInvokeNext(message, traceId, context);
         }
         catch (Exception exception)
         {
-            _logger.Error(operation, "Request error", exception, traceId);
+            _logger.Error(nameof(OperationLogs.RequestFailure), message, exception, traceId);
             throw;
         }
     }
 
-    private async Task LogRequest(string operation, Guid traceId, HttpContext context)
+    private async Task LogRequest(string message, Guid traceId, HttpContext context)
     {
         var body = await ReadRequestBody(context);
         context.Response.Headers.Append("TraceId", traceId.ToString());
 
-        _logger.Information(operation, "Request received", body, traceId);
+        _logger.Information(nameof(OperationLogs.ReceivedRequest), message, body, traceId);
     }
 
-    private static async Task<string> ReadRequestBody(HttpContext context)
+    private static async Task<object> ReadRequestBody(HttpContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
         context.Request.EnableBuffering();
@@ -42,10 +45,10 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
         var body = await streamReader.ReadToEndAsync();
         context.Request.Body.Position = 0;
 
-        return body;
+        return JsonSerializer.Deserialize<object>(body);
     }
 
-    private async Task LogResponseAndInvokeNext(string operation, Guid traceId, HttpContext context)
+    private async Task LogResponseAndInvokeNext(string message, Guid traceId, HttpContext context)
     {
         using var buffer = new MemoryStream();
         var stream = context.Response.Body;
@@ -62,9 +65,9 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
         await buffer.CopyToAsync(stream);
         context.Response.Body = stream;
 
-        _logger.Information(operation,
-            "Response",
-            body,
+        _logger.Information(nameof(OperationLogs.ReturnedResponse),
+            message,
+            JsonSerializer.Deserialize<object>(body),
             context.Response.StatusCode,
             traceId);
     }

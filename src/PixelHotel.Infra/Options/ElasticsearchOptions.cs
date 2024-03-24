@@ -1,8 +1,8 @@
 ﻿namespace PixelHotel.Infra.Options;
 
-public class ElasticsearchOptions : IOptions
+public class ElasticsearchOptions 
 {
-    public const string KEY = "Elasticsearch";
+    public const string Elasticsearch = "Elasticsearch";
 
     public string Uri { get; set; }
     public string IndexFormat { get; set; }

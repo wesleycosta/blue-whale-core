@@ -3,14 +3,32 @@ using Microsoft.Extensions.Options;
 using PixelHotel.Core.Abstractions;
 using PixelHotel.Infra.Options;
 using Serilog;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace PixelHotel.Infra.Logger;
 
-internal class LoggerService(ILogger _logger,
-    IHttpContextAccessor _httpContextAccessor,
-    IOptions<ServiceOptions> _options) : ILoggerService
+internal class LoggerService : ILoggerService
 {
     private static readonly string _templateDefault = "service={service};operation={operation}; message={message};traceId={traceId};machine={machine};version={version}";
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        WriteIndented = true
+    };
+
+    private readonly ILogger _logger;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IOptions<ServiceOptions> _options;
+
+    public LoggerService(ILogger logger,
+        IHttpContextAccessor httpContextAccessor,
+        IOptions<ServiceOptions> options)
+    {
+        _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
+        _options = options;
+    }
 
     public Guid? GetTraceId()
     {
@@ -41,7 +59,7 @@ internal class LoggerService(ILogger _logger,
             traceId,
             MachineName,
             Version,
-            body);
+            SerializeToJson(body));
 
     public void Information(string operation, string message, object body, int statusCode, Guid? traceId = null)
         => _logger.Information(string.Concat(_templateDefault, ";body={body};statusCode={statusCode}"),
@@ -51,7 +69,7 @@ internal class LoggerService(ILogger _logger,
             traceId,
             MachineName,
             Version,
-            body,
+            SerializeToJson(body),
             statusCode);
 
     public void Error(string operation, string message, Exception exception, Guid? traceId = null)
@@ -73,13 +91,15 @@ internal class LoggerService(ILogger _logger,
             MachineName,
             Version,
             exception,
-            request);
+            SerializeToJson(request));
 
     public void CloseAndFlush()
         => Log.CloseAndFlush();
 
     private static string MachineName => Environment.MachineName;
-
     private string Version => _options.Value.Version;
     private string Service => _options.Value.Name;
+
+    private static string SerializeToJson(object body)
+        => JsonSerializer.Serialize(body, _jsonOptions);
 }

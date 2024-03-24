@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Infra.Configurations;
 using System;
+using System.Reflection;
 
 namespace PixelHotel.Api;
 
@@ -19,16 +20,15 @@ public sealed class WebAppBuilder
         return this;
     }
 
-    public WebAppBuilder WithServices<TAssembly>(Action<IServiceCollection, IConfiguration> configureServices)
+    public WebAppBuilder WithServices(Assembly[] assemblies, Action<IServiceCollection, IConfiguration> configureServices)
     {
-        var assembly = typeof(TAssembly).Assembly;
-        _builder.Services.AddApiConfiguration(_builder.Configuration, assembly);
+        _builder.Services.AddApiConfiguration(_builder.Configuration, assemblies);
         configureServices?.Invoke(_builder.Services, _builder.Configuration);
 
         return this;
     }
 
-    public WebAppBuilder WithApp()
+    public WebAppBuilder WithDefaultAppConfig()
     {
         _app = _builder.Build();
         _app.UseApiConfiguration(_builder.Configuration);

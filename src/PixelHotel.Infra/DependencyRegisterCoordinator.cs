@@ -15,12 +15,13 @@ public static partial class DependencyRegisterCoordinator
 {
     public static IServiceCollection AddServicesDependencies(this IServiceCollection services,
         IConfiguration configuration,
-        Assembly assembly)
+        params Assembly[] assemblies)
     {
-        services.AddBaseOptions();
+        services.AddBaseOptions(configuration);
         services.AddLogger(configuration);
         services.AddMediator();
-        services.RegisterModules(assembly);
+        services.AddPublisherEvent();
+        services.RegisterModules(assemblies);
 
         return services;
     }
@@ -36,6 +37,12 @@ public static partial class DependencyRegisterCoordinator
         services.AddSerilog(configuration);
         services.AddSingleton<ILoggerService, LoggerService>();
 
+        return services;
+    }
+
+    private static IServiceCollection AddPublisherEvent(this IServiceCollection services)
+    {
+        services.AddScoped<IPublisherEvent, PublisherEvent>();
         return services;
     }
 }
