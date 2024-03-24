@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using PixelHotel.Infra;
 using PixelHotel.Infra.Configurations;
-using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace PixelHotel.Api;
@@ -20,11 +19,16 @@ public sealed class WebAppBuilder
         return this;
     }
 
-    public WebAppBuilder WithServices(Assembly[] assemblies, Action<IServiceCollection, IConfiguration> configureServices)
+    public WebAppBuilder WithDefaultServices()
     {
-        _builder.Services.AddApiConfiguration(_builder.Configuration, assemblies);
-        configureServices?.Invoke(_builder.Services, _builder.Configuration);
+        _builder.Services.AddApiConfiguration(_builder.Configuration);
 
+        return this;
+    }
+
+    public WebAppBuilder WithServicesFromAssemblies(IEnumerable<Assembly> assemblies)
+    {
+        _builder.Services.AddServicesDependencies(_builder.Configuration, assemblies);
         return this;
     }
 

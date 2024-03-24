@@ -11,17 +11,17 @@ using System.Reflection;
 
 namespace PixelHotel.Infra;
 
-public static partial class DependencyRegisterCoordinator
+public static class DependencyRegisterCoordinator
 {
     public static IServiceCollection AddServicesDependencies(this IServiceCollection services,
         IConfiguration configuration,
-        params Assembly[] assemblies)
+        IEnumerable<Assembly> assemblies)
     {
         services.AddBaseOptions(configuration);
         services.AddLogger(configuration);
         services.AddMediator();
         services.AddPublisherEvent();
-        services.RegisterModules(assemblies);
+        services.RegisterModules(configuration, assemblies);
 
         return services;
     }
@@ -45,4 +45,5 @@ public static partial class DependencyRegisterCoordinator
         services.AddScoped<IPublisherEvent, PublisherEvent>();
         return services;
     }
+
 }

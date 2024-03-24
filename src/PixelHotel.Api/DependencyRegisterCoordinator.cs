@@ -3,25 +3,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Api.Middlewares;
 using PixelHotel.Api.Swagger;
-using PixelHotel.Infra;
 using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Options;
-using System.Reflection;
 
 namespace PixelHotel.Api;
 
 public static class DependencyRegisterCoordinator
 {
     public static IServiceCollection AddApiConfiguration(this IServiceCollection services,
-        IConfiguration configuration,
-        Assembly[] assemblies)
+        IConfiguration configuration)
     {
         var serviceOptions = configuration.GetServiceOptions();
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwagger(serviceOptions);
-        services.AddServicesDependencies(configuration, assemblies);
         services.AddHttpContextAccessor();
 
         return services;
