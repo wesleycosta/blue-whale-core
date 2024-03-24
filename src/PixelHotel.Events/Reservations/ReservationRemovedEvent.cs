@@ -1,6 +1,6 @@
 ﻿using PixelHotel.Core.Events;
 
-namespace PixelHotel.Events.Reseqrvations;
+namespace PixelHotel.Events.Reservations;
 
 public class ReservationRemovedEvent : Event
 {

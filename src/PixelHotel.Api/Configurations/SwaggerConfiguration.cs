@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Linq;
 
-namespace PixelHotel.Api.Swagger;
+namespace PixelHotel.Api.Configurations;
 
 public static class SwaggerConfiguration
 {

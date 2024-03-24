@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PixelHotel.Api.Configurations;
 using PixelHotel.Api.Middlewares;
-using PixelHotel.Api.Swagger;
 using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Options;
 
