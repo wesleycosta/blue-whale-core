@@ -23,4 +23,3 @@ public static class ValidatorMessages
     public static string LessThanString(string field)
         => $"{field} should be greater than 255";
 }
-

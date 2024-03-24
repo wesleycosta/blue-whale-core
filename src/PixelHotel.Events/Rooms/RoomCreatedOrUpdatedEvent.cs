@@ -16,4 +16,3 @@ public class RoomCreatedOrUpdatedEvent : Event
         Number = number;
     }
 }
-

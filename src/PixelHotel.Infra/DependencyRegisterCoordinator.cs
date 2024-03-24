@@ -45,5 +45,4 @@ public static class DependencyRegisterCoordinator
         services.AddScoped<IPublisherEvent, PublisherEvent>();
         return services;
     }
-
 }

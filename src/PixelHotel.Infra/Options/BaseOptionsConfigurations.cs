@@ -13,7 +13,6 @@ internal static class BaseOptionsConfigurations
         return services;
     }
 
-
     public static ServiceOptions GetServiceOptions(this IConfiguration configuration)
     {
         var serviceOptions = new ServiceOptions();
