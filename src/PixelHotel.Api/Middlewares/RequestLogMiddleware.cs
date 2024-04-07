@@ -25,7 +25,6 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
         catch (Exception exception)
         {
             _logger.Error(nameof(OperationLogs.RequestFailure), message, exception, traceId);
-            throw;
         }
     }
 
@@ -45,7 +44,7 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
         var body = await streamReader.ReadToEndAsync();
         context.Request.Body.Position = 0;
 
-        return JsonSerializer.Deserialize<object>(body);
+        return DeserializeJson(body);
     }
 
     private async Task LogResponseAndInvokeNext(string message, Guid traceId, HttpContext context)
@@ -67,8 +66,18 @@ internal sealed class RequestLogMiddleware(RequestDelegate _next, ILoggerService
 
         _logger.Information(nameof(OperationLogs.ReturnedResponse),
             message,
-            JsonSerializer.Deserialize<object>(body),
+           DeserializeJson(body),
             context.Response.StatusCode,
             traceId);
+    }
+
+    private static object DeserializeJson(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return null;
+        }
+
+        return JsonSerializer.Deserialize<object>(json);
     }
 }

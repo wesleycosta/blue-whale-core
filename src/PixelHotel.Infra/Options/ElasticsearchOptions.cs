@@ -1,6 +1,6 @@
 ﻿namespace PixelHotel.Infra.Options;
 
-public class ElasticsearchOptions 
+public class ElasticsearchOptions
 {
     public const string Elasticsearch = "Elasticsearch";
 

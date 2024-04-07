@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Core.Domain;
 using PixelHotel.Core.Domain.Validations;
 using PixelHotel.Core.Services;
+using System.Reflection;
 
 namespace PixelHotel.Core.Extensions;
 
@@ -25,5 +26,13 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IValidator<TCommand>, TValidator>();
 
         return services;
+    }
+
+    public static IEnumerable<Type> GetTypesFromAssemblies<TType>(this IServiceCollection _, IEnumerable<Assembly> assemblies)
+    {
+        var moduleType = typeof(TType);
+
+        return assemblies.SelectMany(a => a.GetTypes())
+             .Where(t => moduleType.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract);
     }
 }

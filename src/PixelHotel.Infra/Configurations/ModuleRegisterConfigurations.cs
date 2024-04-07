@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Core.Abstractions;
+using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Abstractions;
 using System.Reflection;
 
@@ -10,8 +11,8 @@ public static class ModuleRegisterConfigurations
 {
     public static void RegisterModules(this IServiceCollection services, IConfiguration configuration, IEnumerable<Assembly> assemblies)
     {
-        var moduleRegisterTypes = GetTypesFromAssemblies<IModuleRegister>(assemblies);
-        var moduleRegiterWithConfigurationTypes = GetTypesFromAssemblies<IModuleRegiterWithConfiguration>(assemblies);
+        var moduleRegisterTypes = services.GetTypesFromAssemblies<IModuleRegister>(assemblies);
+        var moduleRegiterWithConfigurationTypes = services.GetTypesFromAssemblies<IModuleRegiterWithConfiguration>(assemblies);
 
         services.RegisterServicesModuleRegister(moduleRegisterTypes);
         services.RegisterServicesModuleRegiterWithConfig(configuration, moduleRegiterWithConfigurationTypes);
@@ -35,12 +36,5 @@ public static class ModuleRegisterConfigurations
             var module = (IModuleRegiterWithConfiguration)Activator.CreateInstance(type);
             module.RegisterServices(services, configuration);
         }
-    }
-
-    private static IEnumerable<Type> GetTypesFromAssemblies<TType>(IEnumerable<Assembly> assemblies)
-    {
-        var moduleType = typeof(TType);
-        return assemblies.SelectMany(a => a.GetTypes())
-             .Where(t => moduleType.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract);
     }
 }

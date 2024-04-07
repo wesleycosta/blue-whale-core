@@ -101,5 +101,12 @@ internal class LoggerService : ILoggerService
     private string Service => _options.Value.Name;
 
     private static string SerializeToJson(object body)
-        => JsonSerializer.Serialize(body, _jsonOptions);
+    {
+        if (body is null)
+        {
+            return default;
+        }
+
+        return JsonSerializer.Serialize(body, _jsonOptions);
+    }
 }

@@ -1,11 +1,17 @@
 ﻿using PixelHotel.Core.Events;
+using System.Drawing;
 
 namespace PixelHotel.Events.Rooms;
 
 public class RoomCreatedOrUpdatedEvent : Event
 {
-    public string Name { get; private set; }
-    public int Number { get; private set; }
+    public string Name { get; set; }
+    public int Number { get; set; }
+
+    public RoomCreatedOrUpdatedEvent()
+    {
+
+    }
 
     public RoomCreatedOrUpdatedEvent(Guid id,
         string name,

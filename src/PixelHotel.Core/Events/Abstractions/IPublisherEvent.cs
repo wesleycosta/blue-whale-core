@@ -2,5 +2,5 @@
 
 public interface IPublisherEvent
 {
-    Task Publish<TEvent>(TEvent eventMessage) where TEvent : Event;
+    Task Publish<TEvent>(TEvent @event) where TEvent : Event;
 }

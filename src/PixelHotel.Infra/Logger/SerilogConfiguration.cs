@@ -11,7 +11,7 @@ internal static class SerilogConfiguration
     public static IServiceCollection AddSerilog(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var options = GetElasticsearchOptions(configuration);
+        var options = configuration.GetElasticsearchOptions();
         var elasticsearchUri = new Uri(options.Uri);
 
         var elasticsearchSinkOptions = new ElasticsearchSinkOptions(elasticsearchUri)
@@ -33,7 +33,7 @@ internal static class SerilogConfiguration
         return services.AddSingleton(Log.Logger);
     }
 
-    private static ElasticsearchOptions GetElasticsearchOptions(IConfiguration configuration)
+    private static ElasticsearchOptions GetElasticsearchOptions(this IConfiguration configuration)
     {
         var options = new ElasticsearchOptions();
         configuration.Bind(ElasticsearchOptions.Elasticsearch, options);

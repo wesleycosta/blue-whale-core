@@ -9,6 +9,7 @@ internal static class BaseOptionsConfigurations
     {
         services.Configure<ServiceOptions>((opt) => configuration.Bind(ServiceOptions.Service, opt));
         services.Configure<ElasticsearchOptions>((opt) => configuration.Bind(ElasticsearchOptions.Elasticsearch, opt));
+        services.Configure<RabbitMqOptions>((opt) => configuration.Bind(RabbitMqOptions.RabbitMQ, opt));
 
         return services;
     }

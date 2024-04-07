@@ -20,7 +20,7 @@ public static class DependencyRegisterCoordinator
         services.AddBaseOptions(configuration);
         services.AddLogger(configuration);
         services.AddMediator();
-        services.AddPublisherEvent();
+        services.AddMessageBus(configuration, assemblies);
         services.RegisterModules(configuration, assemblies);
 
         return services;
@@ -37,12 +37,6 @@ public static class DependencyRegisterCoordinator
         services.AddSerilog(configuration);
         services.AddSingleton<ILoggerService, LoggerService>();
 
-        return services;
-    }
-
-    private static IServiceCollection AddPublisherEvent(this IServiceCollection services)
-    {
-        services.AddScoped<IPublisherEvent, PublisherEvent>();
         return services;
     }
 }
