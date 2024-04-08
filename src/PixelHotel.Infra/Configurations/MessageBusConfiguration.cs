@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PixelHotel.Core.Events;
 using PixelHotel.Core.Events.Abstractions;
 using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Options;
@@ -16,14 +17,22 @@ internal static class MessageBusConfiguration
     {
         var options = configuration.GetRabbitMQOptions();
         var consumerRegistrations = services.GetConsumerRegistrations(assembliesConsumers);
+        var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
 
         services.AddMassTransit(config =>
         {
-            config.ConfigureBus(options, services, consumerRegistrations);
+            config.ConfigureBus(options, services, consumerRegistrations, configurations);
 
-            foreach (var consumerRegistration in consumerRegistrations)
+            foreach (var busConfig in configurations)
             {
-                consumerRegistration.Register(config);
+                if (busConfig.Receives is not null)
+                {
+                    foreach (var receive in busConfig.Receives)
+                        foreach (var consumer in receive.Consumers)
+                        {
+                            config.AddConsumer(consumer);
+                        }
+                }
             }
         });
 
@@ -33,7 +42,8 @@ internal static class MessageBusConfiguration
     private static void ConfigureBus(this IBusRegistrationConfigurator config,
         RabbitMqOptions options,
         IServiceCollection services,
-        IEnumerable<IConsumerRegistration> consumerRegistrations)
+        IEnumerable<IBusConfiguration> consumerRegistrations,
+        IEnumerable<BusConfiguration> busConfigurations)
      =>
         config.UsingRabbitMq((context, cfg) =>
         {
@@ -41,7 +51,34 @@ internal static class MessageBusConfiguration
 
             foreach (var consumerRegistration in consumerRegistrations)
             {
-                consumerRegistration.ConfigureEndpoint(services, cfg, context);
+                foreach (var busConfig in busConfigurations)
+                {
+                    if (busConfig.Receives is not null)
+                    {
+                        foreach (var receive in busConfig.Receives)
+                        {
+                            cfg.ReceiveEndpoint(receive.QueueName, e =>
+                            {
+                                foreach (var consumer in receive.Consumers)
+                                {
+                                    e.ConfigureConsumer(context, consumer);
+                                }
+                            });
+                        }
+                    }
+
+                    if (busConfig.Publishes is not null)
+                    {
+                        foreach (var publishe in busConfig.Publishes)
+                            foreach (var publishEventConfig in publishe.Configs)
+                            {
+                                cfg.Publish(publishEventConfig.EventType, p =>
+                                {
+                                    p.BindQueue(publishe.ExchangeName, publishEventConfig.Queue);
+                                });
+                            }
+                    }
+                }
             }
         });
 
@@ -60,9 +97,9 @@ internal static class MessageBusConfiguration
         return options;
     }
 
-    private static IEnumerable<IConsumerRegistration> GetConsumerRegistrations(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    private static IEnumerable<IBusConfiguration> GetConsumerRegistrations(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        var types = services.GetTypesFromAssemblies<IConsumerRegistration>(assemblies);
-        return types.Select(p => Activator.CreateInstance(p) as IConsumerRegistration);
+        var types = services.GetTypesFromAssemblies<IBusConfiguration>(assemblies);
+        return types.Select(p => Activator.CreateInstance(p) as IBusConfiguration);
     }
 }
