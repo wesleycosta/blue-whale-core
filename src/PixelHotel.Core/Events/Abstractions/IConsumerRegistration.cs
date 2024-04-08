@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace PixelHotel.Core.Events.Abstractions;
 
-public interface IRegistrationConsumers
+public interface IConsumerRegistration
 {
-    void Register(IServiceCollection services, IRabbitMqBusFactoryConfigurator config, IRegistrationContext context);
     void Register(IBusRegistrationConfigurator busRegistrationConfigurator);
+    void ConfigureEndpoint(IServiceCollection services, IRabbitMqBusFactoryConfigurator config, IRegistrationContext context);
 }
