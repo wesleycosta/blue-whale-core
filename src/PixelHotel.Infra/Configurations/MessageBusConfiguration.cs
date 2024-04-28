@@ -17,11 +17,11 @@ internal static class MessageBusConfiguration
     {
         var options = configuration.GetRabbitMQOptions();
         var consumerRegistrations = services.GetConsumerRegistrations(assembliesConsumers);
-        var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
 
         services.AddMassTransit(config =>
         {
-            config.ConfigureBus(options, services, consumerRegistrations, configurations);
+            var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
+            config.ConfigureBus(options, consumerRegistrations, configurations);
 
             foreach (var busConfig in configurations)
             {
@@ -41,7 +41,6 @@ internal static class MessageBusConfiguration
 
     private static void ConfigureBus(this IBusRegistrationConfigurator config,
         RabbitMqOptions options,
-        IServiceCollection services,
         IEnumerable<IBusConfiguration> consumerRegistrations,
         IEnumerable<BusConfiguration> busConfigurations)
      =>

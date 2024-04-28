@@ -1,6 +1,5 @@
 ﻿using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using PixelHotel.Core.Domain;
 using PixelHotel.Core.Events;
 using PixelHotel.Core.Events.Abstractions;
 using System.Reflection;
@@ -28,8 +27,5 @@ public static class DbContextConfiguration
     }
 
     public static async Task<bool> Commit(this DbContext context, IPublisherEvent publisher)
-    {
-        await publisher.PublishDomainEvents(context).ConfigureAwait(false);
-        return await context.SaveChangesAsync() > 0;
-    }
+        => await context.SaveChangesAsync() > 0;
 }

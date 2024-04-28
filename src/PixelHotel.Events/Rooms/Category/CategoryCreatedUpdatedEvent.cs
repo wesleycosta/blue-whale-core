@@ -6,6 +6,10 @@ public class CategoryCreatedUpdatedEvent : Event
 {
     public string Name { get; private set; }
 
+    public CategoryCreatedUpdatedEvent()
+    {
+    }
+
     public CategoryCreatedUpdatedEvent(Guid aggregateId,
         string name)
     {

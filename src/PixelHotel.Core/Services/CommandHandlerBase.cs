@@ -13,8 +13,8 @@ public abstract class CommandHandlerBase<TCommand> : DataServiceBase, IRequestHa
         IValidator<TCommand> validator) : base(unitOfWork)
         => Validator = validator;
 
-    public abstract Task<Result> Handle(TCommand request, CancellationToken cancellationToken);
+    public abstract Task<Result> Handle(TCommand command, CancellationToken cancellationToken);
 
-    public async Task<bool> Validate(TCommand request)
-        => await Validate(Validator, request);
+    public async Task<bool> Validate(TCommand command)
+        => await Validate(Validator, command);
 }
