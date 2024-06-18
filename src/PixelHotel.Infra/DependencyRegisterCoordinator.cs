@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Core.Abstractions;
-using PixelHotel.Core.Events.Abstractions;
+using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Events;
 using PixelHotel.Infra.Logger;

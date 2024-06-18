@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 
-namespace PixelHotel.Core.Events;
+namespace PixelHotel.Core.Bus;
 
 public abstract class ConsumerBase<TEvent> : IConsumer<TEvent> where TEvent : class
 {

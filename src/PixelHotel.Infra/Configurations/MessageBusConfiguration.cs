@@ -1,11 +1,12 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PixelHotel.Core.Events;
-using PixelHotel.Core.Events.Abstractions;
+using PixelHotel.Core.Bus;
+using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Options;
 using System.Reflection;
+using System.Linq;
 
 namespace PixelHotel.Infra.Configurations;
 
@@ -22,17 +23,13 @@ internal static class MessageBusConfiguration
         {
             var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
             config.ConfigureBus(options, consumerRegistrations, configurations);
+            var consumers = configurations
+                .Where(busConfig => busConfig.Receives is not null)
+                .SelectMany(busConfig => busConfig.Receives.SelectMany(receive => receive.Consumers));
 
-            foreach (var busConfig in configurations)
+            foreach (var consumer in consumers)
             {
-                if (busConfig.Receives is not null)
-                {
-                    foreach (var receive in busConfig.Receives)
-                        foreach (var consumer in receive.Consumers)
-                        {
-                            config.AddConsumer(consumer);
-                        }
-                }
+                config.AddConsumer(consumer);
             }
         });
 
@@ -58,6 +55,7 @@ internal static class MessageBusConfiguration
                         {
                             cfg.ReceiveEndpoint(receive.QueueName, e =>
                             {
+                                e.Bind(receive.ExchangeName);
                                 foreach (var consumer in receive.Consumers)
                                 {
                                     e.ConfigureConsumer(context, consumer);
@@ -73,7 +71,7 @@ internal static class MessageBusConfiguration
                             {
                                 cfg.Publish(publishEventConfig.EventType, p =>
                                 {
-                                    p.BindQueue(publishe.ExchangeName, publishEventConfig.Queue);
+                                    p.BindQueue(publishe.ExchangeName, publishEventConfig.QueueName);
                                 });
                             }
                     }

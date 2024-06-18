@@ -1,7 +1,7 @@
 ﻿using PixelHotel.Core.Domain;
 using PixelHotel.Core.Services;
 
-namespace PixelHotel.Core.Events.Abstractions;
+namespace PixelHotel.Core.Bus.Abstractions;
 
 public interface IMediatorHandler
 {

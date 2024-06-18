@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Core.Events;
-using PixelHotel.Core.Events.Abstractions;
 using System.Reflection;
 
 namespace PixelHotel.Infra.Configurations;

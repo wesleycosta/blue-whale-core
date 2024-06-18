@@ -1,6 +1,6 @@
 ﻿using MediatR;
+using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Core.Domain;
-using PixelHotel.Core.Events.Abstractions;
 using PixelHotel.Core.Services;
 
 namespace PixelHotel.Infra.Events;
