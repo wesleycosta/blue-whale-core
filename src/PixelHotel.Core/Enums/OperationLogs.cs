@@ -2,8 +2,9 @@
 
 public enum OperationLogs
 {
-    PublishedEvent,
     RequestFailure,
     ReceivedRequest,
     ReturnedResponse,
+    PublishedEvent,
+    ReceivedEvent,
 }
