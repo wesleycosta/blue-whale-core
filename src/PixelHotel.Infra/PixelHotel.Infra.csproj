@@ -5,7 +5,7 @@
 		<Version>1.0.0</Version>
 		<Authors>Wesley Costa</Authors>
 		<Company>wesleycosta</Company>
-		<PackageDescription>Lorem Ipsum</PackageDescription>
+		<PackageDescription>The PixelHotel.Core package is a set of functionalities and shared classes between different components of the system. It provides a solid foundation for consistent development and efficient maintenance.</PackageDescription>
 		<RepositoryUrl>https://github.com/wesleycosta/pixel-hotel</RepositoryUrl>
 	</PropertyGroup>
 
