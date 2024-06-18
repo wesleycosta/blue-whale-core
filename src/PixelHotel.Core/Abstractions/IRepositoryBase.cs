@@ -1,5 +1,8 @@
 ﻿using PixelHotel.Core.Domain;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Core.Abstractions;
 

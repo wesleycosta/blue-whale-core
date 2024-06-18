@@ -7,6 +7,7 @@ using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Events;
 using PixelHotel.Infra.Logger;
 using PixelHotel.Infra.Options;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace PixelHotel.Infra;

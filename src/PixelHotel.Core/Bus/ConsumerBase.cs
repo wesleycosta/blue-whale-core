@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Core.Bus;
 

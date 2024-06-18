@@ -1,4 +1,7 @@
-﻿namespace PixelHotel.Core.Bus
+﻿using System;
+using System.Collections.Generic;
+
+namespace PixelHotel.Core.Bus
 {
     public class ReceiveConfiguration
     {

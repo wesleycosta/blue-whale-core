@@ -1,4 +1,6 @@
-﻿namespace PixelHotel.Core.Bus
+﻿using System;
+
+namespace PixelHotel.Core.Bus
 {
     public class PublishEventConfig
     {

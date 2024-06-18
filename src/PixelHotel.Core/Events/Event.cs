@@ -1,4 +1,6 @@
-﻿namespace PixelHotel.Core.Events;
+﻿using System;
+
+namespace PixelHotel.Core.Events;
 
 public abstract class Event
 {

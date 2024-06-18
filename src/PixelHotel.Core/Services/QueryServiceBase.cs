@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using PixelHotel.Core.Domain.Validations;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Core.Services;
 

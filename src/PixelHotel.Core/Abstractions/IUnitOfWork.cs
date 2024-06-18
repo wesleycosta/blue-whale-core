@@ -1,4 +1,6 @@
-﻿namespace PixelHotel.Core.Abstractions;
+﻿using System.Threading.Tasks;
+
+namespace PixelHotel.Core.Abstractions;
 
 public interface IUnitOfWork
 {

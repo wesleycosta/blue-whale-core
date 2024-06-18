@@ -1,4 +1,6 @@
-﻿namespace PixelHotel.Core.Domain;
+﻿using System;
+
+namespace PixelHotel.Core.Domain;
 
 public abstract class EntityBase
 {

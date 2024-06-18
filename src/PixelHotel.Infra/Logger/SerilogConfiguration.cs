@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Infra.Options;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using System;
 
 namespace PixelHotel.Infra.Logger;
 

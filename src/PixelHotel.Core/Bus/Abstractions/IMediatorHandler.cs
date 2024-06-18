@@ -1,5 +1,6 @@
 ﻿using PixelHotel.Core.Domain;
 using PixelHotel.Core.Services;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Core.Bus.Abstractions;
 

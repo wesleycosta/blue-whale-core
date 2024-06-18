@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Core.Events;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Infra.Configurations;
 

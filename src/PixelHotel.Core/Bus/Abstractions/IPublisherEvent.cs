@@ -1,4 +1,5 @@
 ﻿using PixelHotel.Core.Events;
+using System.Threading.Tasks;
 
 namespace PixelHotel.Core.Bus.Abstractions;
 

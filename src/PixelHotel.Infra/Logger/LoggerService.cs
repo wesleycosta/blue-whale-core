@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using PixelHotel.Core.Abstractions;
 using PixelHotel.Infra.Options;
 using Serilog;
+using System;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 

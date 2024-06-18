@@ -7,6 +7,8 @@ using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Options;
 using System.Reflection;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace PixelHotel.Infra.Configurations;
 

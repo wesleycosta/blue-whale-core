@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PixelHotel.Core.Abstractions;
 using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace PixelHotel.Infra.Configurations;

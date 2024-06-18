@@ -1,5 +1,6 @@
 ﻿using PixelHotel.Core.Domain;
 using PixelHotel.Core.Events;
+using System.Collections.Generic;
 
 namespace PixelHotel.Core.Abstractions;
 

@@ -1,4 +1,6 @@
-﻿namespace PixelHotel.Core.Responses;
+﻿using System;
+
+namespace PixelHotel.Core.Responses;
 
 public abstract class ResponseBase
 {
