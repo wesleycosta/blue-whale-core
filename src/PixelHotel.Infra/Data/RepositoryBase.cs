@@ -58,4 +58,7 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
             .Select(projection)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate)
+        => await AsQueryable().AnyAsync(predicate);
 }

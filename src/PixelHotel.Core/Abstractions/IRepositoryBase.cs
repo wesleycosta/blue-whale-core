@@ -16,4 +16,5 @@ public interface IRepositoryBase<TEntity> where TEntity : EntityBase
         Expression<Func<TEntity, TResult>> projection);
     Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
+    Task<bool> Any(Expression<Func<TEntity, bool>> predicate);
 }
