@@ -9,38 +9,45 @@ using System.Threading.Tasks;
 
 namespace PixelHotel.Infra.Data;
 
-public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
+public abstract class RepositoryBase<TEntity>(DbContext context) : IRepositoryBase<TEntity> where TEntity : EntityBase
 {
-    private readonly DbSet<TEntity> _dbSet;
+    protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
 
-    protected RepositoryBase(DbContext context)
-        => _dbSet = context.Set<TEntity>();
-
-    protected IQueryable<TEntity> AsQueryable()
-        => _dbSet.AsQueryable();
+    protected virtual IQueryable<TEntity> AsQueryable => DbSet.AsQueryable()
+            .Where(p => !p.Removed);
 
     public virtual void Add(TEntity entity) =>
-        _dbSet.Add(entity);
+        DbSet.Add(entity);
 
     public virtual void Update(TEntity entity) =>
-        _dbSet.Update(entity);
+        DbSet.Update(entity);
 
-    public virtual async Task Remove(Guid id)
+    public virtual async Task HardDelete(Guid id)
     {
         var entity = await GetById(id);
         if (entity is null)
             return;
 
-        _dbSet.Remove(entity);
+        DbSet.Remove(entity);
+    }
+
+    public virtual async Task SoftDelete(Guid id)
+    {
+        var entity = await GetById(id);
+        if (entity is null)
+            return;
+
+        entity.Remove();
+        Update(entity);
     }
 
     public virtual async Task<TEntity> GetById(Guid id)
-        => await AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
+        => await AsQueryable.FirstOrDefaultAsync(p => p.Id == id);
 
     public async Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection)
     {
-        var query = AsQueryable();
+        var query = AsQueryable;
 
         return await query
             .Where(filter)
@@ -51,7 +58,7 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     public async Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection)
     {
-        var query = AsQueryable();
+        var query = AsQueryable;
 
         return await query
             .Where(filter)
@@ -60,5 +67,5 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     }
 
     public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate)
-        => await AsQueryable().AnyAsync(predicate);
+        => await AsQueryable.AnyAsync(predicate);
 }

@@ -10,7 +10,8 @@ public interface IRepositoryBase<TEntity> where TEntity : EntityBase
 {
     void Add(TEntity entity);
     void Update(TEntity entity);
-    Task Remove(Guid id);
+    Task HardDelete(Guid id);
+    Task SoftDelete(Guid id);
     Task<TEntity> GetById(Guid id);
     Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
