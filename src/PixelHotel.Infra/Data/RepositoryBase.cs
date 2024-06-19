@@ -22,24 +22,14 @@ public abstract class RepositoryBase<TEntity>(DbContext context) : IRepositoryBa
     public virtual void Update(TEntity entity) =>
         DbSet.Update(entity);
 
-    public virtual async Task HardDelete(Guid id)
+    public virtual void SoftDelete(TEntity entity)
     {
-        var entity = await GetById(id);
-        if (entity is null)
-            return;
-
-        DbSet.Remove(entity);
-    }
-
-    public virtual async Task SoftDelete(Guid id)
-    {
-        var entity = await GetById(id);
-        if (entity is null)
-            return;
-
         entity.Remove();
         Update(entity);
     }
+
+    public virtual void HardDelete(TEntity entity)
+        => DbSet.Remove(entity);
 
     public virtual async Task<TEntity> GetById(Guid id)
         => await AsQueryable.FirstOrDefaultAsync(p => p.Id == id);
