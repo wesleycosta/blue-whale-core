@@ -11,5 +11,5 @@ public abstract class RepositoryBaseWithRemoved<TEntity> : RepositoryBase<TEntit
     }
 
     protected override IQueryable<TEntity> AsQueryable
-        => DbSet.AsQueryable();
+        => DbSet.IgnoreQueryFilters().AsQueryable();
 }

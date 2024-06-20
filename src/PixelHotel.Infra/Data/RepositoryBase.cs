@@ -16,8 +16,8 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     protected RepositoryBase(DbContext context)
         => DbSet = context.Set<TEntity>();
 
-    protected virtual IQueryable<TEntity> AsQueryable => DbSet.AsQueryable()
-            .Where(p => !p.Removed);
+    protected virtual IQueryable<TEntity> AsQueryable 
+        => DbSet.AsQueryable();
 
     public virtual void Add(TEntity entity) =>
         DbSet.Add(entity);
