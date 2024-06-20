@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 
 namespace PixelHotel.Infra.Data;
 
-public abstract class RepositoryBase<TEntity>(DbContext context) : IRepositoryBase<TEntity> where TEntity : EntityBase
+public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
 {
-    protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
+    protected readonly DbSet<TEntity> DbSet;
+
+    protected RepositoryBase(DbContext context)
+        => DbSet = context.Set<TEntity>();
 
     protected virtual IQueryable<TEntity> AsQueryable => DbSet.AsQueryable()
             .Where(p => !p.Removed);
