@@ -19,7 +19,7 @@
 
 The project aims to provide a structured foundation for developing and scaling microservices within the PixelHotel environment. By centralizing core functionalities into reusable packages, it promotes consistency, scalability, and ease of maintenance across different services.
 
-### Installation:
+### Execution:
 
 To utilize the packages within your microservices:
 
