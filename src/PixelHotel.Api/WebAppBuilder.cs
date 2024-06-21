@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PixelHotel.Infra;
 using PixelHotel.Infra.Configurations;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace PixelHotel.Api;
@@ -26,7 +25,7 @@ public sealed class WebAppBuilder
         return this;
     }
 
-    public WebAppBuilder WithServicesFromAssemblies(IEnumerable<Assembly> assemblies)
+    public WebAppBuilder WithServicesFromAssemblies(params Assembly[] assemblies)
     {
         _builder.Services.AddServicesDependencies(_builder.Configuration, assemblies);
         return this;

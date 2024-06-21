@@ -5,10 +5,10 @@ using PixelHotel.Core.Bus;
 using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Core.Extensions;
 using PixelHotel.Infra.Options;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace PixelHotel.Infra.Configurations;
 
@@ -19,8 +19,13 @@ internal static class MessageBusConfiguration
         IEnumerable<Assembly> assembliesConsumers)
     {
         var options = configuration.GetRabbitMQOptions();
-        var consumerRegistrations = services.GetConsumerRegistrations(assembliesConsumers);
+        if (options is null)
+        {
+            return services;
+        }
 
+        var consumerRegistrations = services.GetConsumerRegistrations(assembliesConsumers);
+        
         services.AddMassTransit(config =>
         {
             var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
