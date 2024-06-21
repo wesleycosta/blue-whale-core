@@ -5,6 +5,7 @@ using PixelHotel.Api.Configurations;
 using PixelHotel.Api.Middlewares;
 using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Options;
+using System;
 
 namespace PixelHotel.Api;
 
@@ -23,13 +24,16 @@ public static class DependencyRegisterCoordinator
         return services;
     }
 
-    public static IApplicationBuilder UseApiConfiguration(this IApplicationBuilder app, IConfiguration configuration)
+    public static IApplicationBuilder UseApiConfiguration(this IApplicationBuilder app, 
+        IConfiguration configuration,
+        Action<IApplicationBuilder> customConfig = null)
     {
         var serviceOptions = configuration.GetServiceOptions();
-
+        
         app.UseSwaggerConfiguration(serviceOptions);
         app.UseHttpsRedirection();
         app.UseMiddlewares();
+        customConfig?.Invoke(app);
         app.UseAuthorization();
         app.AddStartupAndShutdownLog();
 

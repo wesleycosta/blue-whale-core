@@ -19,7 +19,7 @@ internal static class MessageBusConfiguration
         IEnumerable<Assembly> assembliesConsumers)
     {
         var options = configuration.GetRabbitMQOptions();
-        if (options is null)
+        if (!options.IsValid())
         {
             return services;
         }

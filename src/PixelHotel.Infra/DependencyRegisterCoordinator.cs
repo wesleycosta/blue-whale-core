@@ -6,7 +6,6 @@ using PixelHotel.Core.Bus.Abstractions;
 using PixelHotel.Infra.Configurations;
 using PixelHotel.Infra.Events;
 using PixelHotel.Infra.Logger;
-using PixelHotel.Infra.Options;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -18,11 +17,17 @@ public static class DependencyRegisterCoordinator
         IConfiguration configuration,
         IEnumerable<Assembly> assemblies)
     {
-        services.AddBaseOptions(configuration);
-        services.AddLogger(configuration);
         services.AddMediator();
         services.AddMessageBus(configuration, assemblies);
         services.RegisterModules(configuration, assemblies);
+
+        return services;
+    }
+
+    public static IServiceCollection AddLogger(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSerilog(configuration);
+        services.AddSingleton<ILoggerService, LoggerService>();
 
         return services;
     }
@@ -31,13 +36,5 @@ public static class DependencyRegisterCoordinator
     {
         services.AddMediatR(typeof(MediatorHandler));
         return services.AddScoped<IMediatorHandler, MediatorHandler>();
-    }
-
-    private static IServiceCollection AddLogger(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddSerilog(configuration);
-        services.AddSingleton<ILoggerService, LoggerService>();
-
-        return services;
     }
 }
