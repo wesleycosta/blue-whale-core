@@ -30,7 +30,7 @@ To utilize the packages within your microservices:
    git clone https://github.com/wesleycosta/orangotango-core.git
    ```
 
-2. Open the solution file (`BlueWhale.sln`) in your preferred IDE.
+2. Open the solution file (`Orangotango.sln`) in your preferred IDE.
 
 ### Contributing:
 
