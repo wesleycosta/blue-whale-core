@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+	  <Version>1.0.6</Version>
+	  <Authors>Wesley Costa</Authors>
+	  <Company>wesleycosta</Company>
+	  <PackageDescription>Package responsible for sharing common events among microservices.</PackageDescription>
+	  <RepositoryUrl>https://github.com/wesleycosta/orangotango</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orangotango.Core\Orangotango.Core.csproj" />
+  </ItemGroup>
+
+</Project>
