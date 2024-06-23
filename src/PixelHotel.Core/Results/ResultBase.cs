@@ -2,7 +2,7 @@
 
 namespace PixelHotel.Core.Responses;
 
-public abstract class ResponseBase
+public abstract class ResultBase
 {
     public Guid Id { get; set; }
 }
