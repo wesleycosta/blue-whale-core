@@ -5,6 +5,8 @@ public enum OperationLogs
     RequestFailure,
     ReceivedRequest,
     ReturnedResponse,
-    PublishedEvent,
-    ReceivedEvent,
+    EventPublished,
+    EventReceived,
+    EventProcessedSuccessfully,
+    EventProcessedWithFailure
 }
