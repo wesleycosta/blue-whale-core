@@ -12,12 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Include="..\..\favicon.ico" Link="favicon.ico">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="MassTransit" Version="8.2.0" />
 		<PackageReference Include="MassTransit.Abstractions" Version="8.2.0" />
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.2.0" />
