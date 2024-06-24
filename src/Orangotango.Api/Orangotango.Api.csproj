@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<VersionSuffix>$(GITHUB_RUN_NUMBER)</VersionSuffix>
+		<Version>1.3.0</Version>
 		<Authors>Wesley Costa</Authors>
 		<Company>wesleycosta</Company>
 		<PackageDescription>Package responsible for sharing components and structures related to the presentation layer.</PackageDescription>
