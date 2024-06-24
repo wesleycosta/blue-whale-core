@@ -13,7 +13,7 @@ public abstract class ConsumerBase<TEvent>(ILoggerService _logger) : IConsumer<T
 
     protected void LogInfoEventReceived(TEvent @event)
     {
-        var message = $"Event received ({typeof(TEvent).Name}).";
+        var message = $"Event received {typeof(TEvent).Name}";
         _logger.Information(nameof(OperationLogs.EventReceived),
             message,
             @event,
@@ -22,7 +22,7 @@ public abstract class ConsumerBase<TEvent>(ILoggerService _logger) : IConsumer<T
 
     protected void LogErrorProcessedWithFailure(TEvent @event, Exception exception)
     {
-        var message = $"Event processed with failure ({typeof(TEvent).Name}).";
+        var message = $"Event processed with failure {typeof(TEvent).Name}";
 
         _logger.Error(nameof(OperationLogs.EventProcessedWithFailure),
             message,
