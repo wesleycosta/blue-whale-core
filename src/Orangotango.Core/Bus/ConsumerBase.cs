@@ -12,7 +12,7 @@ public abstract class ConsumerBase<TEvent>(string _eventName,
 {
     public abstract Task Consume(ConsumeContext<TEvent> context);
 
-    protected void LogInfoPublishEvent(TEvent @event)
+    protected void LogInfoEventReceived(TEvent @event)
     {
         var message = $"Event received ({_eventName}).";
         _logger.Information(nameof(OperationLogs.EventReceived),
