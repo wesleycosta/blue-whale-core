@@ -1,5 +1,5 @@
 # orangotango-core
-![Logo](https://github.com/wesleycosta/orangotango/raw/main/images/logos/logo.png)
+![Logo](https://github.com/wesleycosta/orangotango/raw/main/images/logos/logo_full.png)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/wesleycosta/orangotango-core/badge)](https://www.codefactor.io/repository/github/wesleycosta/orangotango-core)
 [![.NET](https://github.com/wesleycosta/orangotango-core/actions/workflows/dotnet.yml/badge.svg)](https://github.com/wesleycosta/orangotango-core/actions/workflows/dotnet.yml)
