@@ -4,7 +4,7 @@ namespace Orangotango.Core.Abstractions;
 
 public interface ILoggerService
 {
-    Guid? GetTraceId();
+    Guid GetTraceId();
     void Information(string operation, string message, Guid? traceId = null);
     void Information(string operation, string message, object body, Guid? traceId = null);
     void Information(string operation, string message, object body, int statusCode, Guid? traceId = null);

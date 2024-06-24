@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Orangotango.Core.Bus;
 using Orangotango.Core.Bus.Abstractions;
 using Orangotango.Core.Extensions;
+using Orangotango.Infra.Bus;
 using Orangotango.Infra.Options;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ internal static class MessageBusConfiguration
         if (!options.IsValid())
             return services;
 
+        services.AddScoped<IPublisherEvent, PublisherEvent>();
         var consumerRegistrations = services.GetConsumerRegistrations(assembliesConsumers);
 
         services.AddMassTransit(config =>

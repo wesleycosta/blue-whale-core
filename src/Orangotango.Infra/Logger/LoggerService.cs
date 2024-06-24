@@ -31,7 +31,7 @@ internal class LoggerService : ILoggerService
         _options = options;
     }
 
-    public Guid? GetTraceId()
+    public Guid GetTraceId()
     {
         var traceId = _httpContextAccessor.HttpContext
             .Response
