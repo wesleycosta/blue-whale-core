@@ -40,7 +40,7 @@ internal class LoggerService : ILoggerService
         if (Guid.TryParse(traceId, out var id))
             return id;
 
-        return null;
+        return Guid.NewGuid();
     }
 
     public void Information(string operation, string message, Guid? traceId = null)
