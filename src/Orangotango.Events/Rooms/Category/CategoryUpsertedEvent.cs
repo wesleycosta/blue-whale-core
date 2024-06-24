@@ -3,15 +3,11 @@ using System;
 
 namespace Orangotango.Events.Rooms.Category;
 
-public class CategoryCreatedUpdatedEvent : Event
+public class CategoryUpsertedEvent : Event
 {
     public string Name { get; private set; }
 
-    public CategoryCreatedUpdatedEvent()
-    {
-    }
-
-    public CategoryCreatedUpdatedEvent(Guid aggregateId,
+    public CategoryUpsertedEvent(Guid aggregateId,
         string name)
     {
         AggregateId = aggregateId;
