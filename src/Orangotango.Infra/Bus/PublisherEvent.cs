@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using Orangotango.Core.Abstractions;
 using Orangotango.Core.Bus.Abstractions;
-using Orangotango.Core.Enums;
 using System;
 using System.Threading.Tasks;
 using Event = Orangotango.Core.Events.Event;
@@ -13,10 +12,9 @@ internal sealed class PublisherEvent(IBus _bus,
 {
     public async Task Publish<TEvent>(TEvent @event) where TEvent : Event
     {
-        @event.Timestamp = DateTimeOffset.UtcNow;
-        if (@event.TranceId == default)
+        if (@event.TranceId == Guid.Empty)
         {
-            @event.TranceId = _logger.GetTraceId();
+            @event.SetTraceId(_logger.GetTraceId());
         }
 
         await _bus.Publish(@event);
