@@ -6,9 +6,9 @@ namespace Orangotango.Core.Bus;
 
 public abstract class PublisherEventBase(ILoggerService _logger)
 {
-    protected void LogPublishEvent<TEvent>(string eventName, TEvent @event) where TEvent : Event
+    protected void LogPublishEvent<TEvent>(TEvent @event) where TEvent : Event
     {
-        var message = $"Event published {eventName}";
+        var message = $"Event published {typeof(TEvent).Name}";
 
         _logger.Information(nameof(OperationLogs.EventPublished),
             message,

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	  <Version>1.4.4</Version>
+	  <Version>1.4.5</Version>
 	  <Authors>Wesley Costa</Authors>
 	  <Company>wesleycosta</Company>
 	  <PackageDescription>Contains all solution events, establishing contracts for easy integration via messaging topology, facilitating data replication across microservices.</PackageDescription>
