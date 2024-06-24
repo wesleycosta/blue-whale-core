@@ -6,7 +6,7 @@ namespace Orangotango.Core.Bus;
 
 public abstract class EventProcessorBase(ILoggerService _logger)
 {
-    protected void LogErrorProcessedWithFailure<TEvent>(TEvent @event) where TEvent : Event
+    protected void LogInfoEventProcessedSuccessfully<TEvent>(TEvent @event) where TEvent : Event
     {
         var message = $"Event processed successfully {typeof(TEvent).Name}";
 
