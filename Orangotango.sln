@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{EC8B2DD2-4A83-455D-96AA-F749326FC16C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orangotango.Api", "src\Orangotango.Api\Orangotango.Api.csproj", "{0AE95FDA-7751-42E5-A22F-B58D76E42411}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orangotango.Core", "src\Orangotango.Core\Orangotango.Core.csproj", "{F02637A2-D0BA-47E2-94B7-A742FBC519E7}"
@@ -38,12 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{0AE95FDA-7751-42E5-A22F-B58D76E42411} = {EC8B2DD2-4A83-455D-96AA-F749326FC16C}
-		{F02637A2-D0BA-47E2-94B7-A742FBC519E7} = {EC8B2DD2-4A83-455D-96AA-F749326FC16C}
-		{A2A00C9F-1CB1-47F4-8179-4122378D1D1D} = {EC8B2DD2-4A83-455D-96AA-F749326FC16C}
-		{FAF6C58D-8D41-4ABB-9F5A-C636AA280706} = {EC8B2DD2-4A83-455D-96AA-F749326FC16C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DDB6AD8-73FA-4C8F-BB15-1E72B049A01D}
