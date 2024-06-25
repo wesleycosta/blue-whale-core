@@ -28,7 +28,7 @@ internal static class MessageBusConfiguration
 
         services.AddMassTransit(config =>
         {
-            var configurations = consumerRegistrations.Select(p => p.GetConfiguration());
+            var configurations = consumerRegistrations.Select(p => p.GetConfiguration(configuration));
             config.ConfigureBus(options, consumerRegistrations, configurations);
             var consumers = configurations
                 .Where(busConfig => busConfig.Receives is not null)
@@ -87,7 +87,8 @@ internal static class MessageBusConfiguration
         return options;
     }
 
-    private static IEnumerable<IBusConfiguration> GetConsumerRegistrations(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    private static IEnumerable<IBusConfiguration> GetConsumerRegistrations(this IServiceCollection services, 
+        IEnumerable<Assembly> assemblies)
     {
         var types = services.GetTypesFromAssemblies<IBusConfiguration>(assemblies);
         return types.Select(p => Activator.CreateInstance(p) as IBusConfiguration);
