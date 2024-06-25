@@ -10,6 +10,6 @@ public abstract class RepositoryBaseWithRemoved<TEntity> : RepositoryBase<TEntit
     {
     }
 
-    protected override IQueryable<TEntity> AsQueryable
+    protected override IQueryable<TEntity> AsQueryable()
         => DbSet.IgnoreQueryFilters().AsQueryable();
 }
