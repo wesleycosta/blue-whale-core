@@ -1,10 +1,10 @@
-# orangotango-core
+# orangotango-packages
 ![Logo](https://github.com/wesleycosta/orangotango/raw/main/images/logos/logo_full.png)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/wesleycosta/orangotango-core/badge)](https://www.codefactor.io/repository/github/wesleycosta/orangotango-core)
-[![.NET](https://github.com/wesleycosta/orangotango-core/actions/workflows/dotnet.yml/badge.svg)](https://github.com/wesleycosta/orangotango-core/actions/workflows/dotnet.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/wesleycosta/orangotango-packages/badge)](https://www.codefactor.io/repository/github/wesleycosta/orangotango-packages)
+[![.NET](https://github.com/wesleycosta/orangotango-packages/actions/workflows/dotnet.yml/badge.svg)](https://github.com/wesleycosta/orangotango-packages/actions/workflows/dotnet.yml)
 
-**orangotango-core** contains essential core packages intended for sharing among microservices in the Orangotango ecosystem.
+**orangotango-packages** contains essential core packages intended for sharing among microservices in the Orangotango ecosystem.
 
 ### Packages Overview:
 
@@ -27,7 +27,7 @@ To utilize the packages within your microservices:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/wesleycosta/orangotango-core.git
+   git clone https://github.com/wesleycosta/orangotango-packages.git
    ```
 
 2. Open the solution file (`Orangotango.sln`) in your preferred IDE.
