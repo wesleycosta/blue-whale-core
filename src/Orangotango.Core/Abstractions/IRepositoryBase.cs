@@ -13,6 +13,7 @@ public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     void SoftDelete(TEntity entity);
     void HardDelete(TEntity entity);
     Task<TEntity> GetById(Guid id);
+    Task<IEnumerable<TResult>> GetAll<TResult>(Expression<Func<TEntity, TResult>> projection);
     Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
     Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
