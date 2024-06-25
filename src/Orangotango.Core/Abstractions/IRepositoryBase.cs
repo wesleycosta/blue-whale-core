@@ -16,11 +16,12 @@ public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     Task<IEnumerable<TResult>> GetAll<TResult>(Expression<Func<TEntity, TResult>> projection);
     Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
-    Task<IEnumerable<TResult>> GetByExpression<TResult, TKey>(
-       Expression<Func<TEntity, bool>> filter,
-       Expression<Func<TEntity, TResult>> projection,
-       Expression<Func<TEntity, TKey>> orderByExpression,
-       bool ascending = true);
+    Task<IEnumerable<TResult>> GetByExpression<TResult, TKey>(Expression<Func<TEntity, bool>> filter,
+        Expression<Func<TEntity, TResult>> projection,
+        Expression<Func<TEntity, TKey>> orderByExpression,
+        bool ascending = true,
+        params Expression<Func<TEntity, object>>[] includes);
+
     Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection);
     Task<bool> Any(Expression<Func<TEntity, bool>> predicate);

@@ -58,12 +58,18 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     }
 
     public async Task<IEnumerable<TResult>> GetByExpression<TResult, TKey>(
-       Expression<Func<TEntity, bool>> filter,
-       Expression<Func<TEntity, TResult>> projection,
-       Expression<Func<TEntity, TKey>> orderByExpression,
-       bool ascending = true)
+        Expression<Func<TEntity, bool>> filter,
+        Expression<Func<TEntity, TResult>> projection,
+        Expression<Func<TEntity, TKey>> orderByExpression,
+        bool ascending = true,
+        params Expression<Func<TEntity, object>>[] includes)
     {
         var query = AsQueryable();
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
         query = query.Where(filter);
         query = ascending ? query.OrderBy(orderByExpression) : query.OrderByDescending(orderByExpression);
 
