@@ -10,6 +10,7 @@ internal sealed class PublisherEvent(IBus _bus) : IPublisherEvent
 {
     public async Task Publish<TEvent>(TEvent @event) where TEvent : Event
     {
+        @event.Timestamp = DateTimeOffset.UtcNow;
         if (@event.TranceId == Guid.Empty)
         {
             @event.SetTraceId(Guid.NewGuid());
