@@ -16,7 +16,7 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     protected RepositoryBase(DbContext context)
         => DbSet = context.Set<TEntity>();
 
-    protected virtual IQueryable<TEntity> AsQueryable
+    protected virtual IQueryable<TEntity> AsQueryable()
         => DbSet.AsQueryable();
 
     public virtual void Add(TEntity entity) =>
@@ -35,11 +35,11 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
         => DbSet.Remove(entity);
 
     public virtual async Task<TEntity> GetById(Guid id)
-        => await AsQueryable.FirstOrDefaultAsync(p => p.Id == id);
+        => await AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
 
     public async Task<IEnumerable<TResult>> GetAll<TResult>(Expression<Func<TEntity, TResult>> projection)
     {
-        var query = AsQueryable;
+        var query = AsQueryable();
 
         return await query
             .Select(projection)
@@ -49,7 +49,7 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     public async Task<IEnumerable<TResult>> GetByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection)
     {
-        var query = AsQueryable;
+        var query = AsQueryable();
 
         return await query
             .Where(filter)
@@ -57,10 +57,23 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<TResult>> GetByExpression<TResult, TKey>(
+       Expression<Func<TEntity, bool>> filter,
+       Expression<Func<TEntity, TResult>> projection,
+       Expression<Func<TEntity, TKey>> orderByExpression,
+       bool ascending = true)
+    {
+        var query = AsQueryable();
+        query = query.Where(filter);
+        query = ascending ? query.OrderBy(orderByExpression) : query.OrderByDescending(orderByExpression);
+
+        return await query.Select(projection).ToListAsync();
+    }
+
     public async Task<TResult> GetFirstByExpression<TResult>(Expression<Func<TEntity, bool>> filter,
         Expression<Func<TEntity, TResult>> projection)
     {
-        var query = AsQueryable;
+        var query = AsQueryable();
 
         return await query
             .Where(filter)
@@ -69,5 +82,5 @@ public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where T
     }
 
     public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate)
-        => await AsQueryable.AnyAsync(predicate);
+        => await AsQueryable().AnyAsync(predicate);
 }
