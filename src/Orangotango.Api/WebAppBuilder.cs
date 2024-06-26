@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Orangotango.Infra;
@@ -30,9 +31,9 @@ public sealed class WebAppBuilder
         return this;
     }
 
-    public WebAppBuilder WithCustomConfiguration(Action<ConfigurationManager> customConfig)
+    public WebAppBuilder WithCustomConfiguration(Action<ConfigurationManager, IWebHostEnvironment> customConfig)
     {
-        customConfig.Invoke(_builder.Configuration);
+        customConfig.Invoke(_builder.Configuration, _builder.Environment);
 
         return this;
     }
