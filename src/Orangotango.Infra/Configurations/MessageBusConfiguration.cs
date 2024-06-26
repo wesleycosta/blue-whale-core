@@ -48,7 +48,14 @@ internal static class MessageBusConfiguration
      =>
         config.UsingRabbitMq((context, cfg) =>
         {
-            cfg.Host(options.HostName, options.VirtualHost, ConfigureCredential(options));
+            if (options.HasConnectionString())
+            {
+                cfg.Host(options.ConnectionString);
+            }
+            else
+            {
+                cfg.Host(options.HostName, options.VirtualHost, ConfigureCredential(options));
+            }
 
             foreach (var consumerRegistration in consumerRegistrations)
                 foreach (var busConfig in busConfigurations)
@@ -87,7 +94,7 @@ internal static class MessageBusConfiguration
         return options;
     }
 
-    private static IEnumerable<IBusConfiguration> GetConsumerRegistrations(this IServiceCollection services, 
+    private static IEnumerable<IBusConfiguration> GetConsumerRegistrations(this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
         var types = services.GetTypesFromAssemblies<IBusConfiguration>(assemblies);
